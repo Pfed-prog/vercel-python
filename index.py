@@ -50,4 +50,4 @@ def home():
 def return_files_tut():
     """returns file"""
 
-    return send_file(join(dir, 'file.txt'))
+    return send_file(join(dir, ".",  'file.txt'))
