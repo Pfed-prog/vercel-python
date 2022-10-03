@@ -1,6 +1,5 @@
 """nonempty"""
-import os
-from os.path import dirname, abspath, join
+from os.path import join
 import json
 import requests
 from flask import Flask, request, jsonify, send_file
@@ -12,10 +11,7 @@ app = Flask(__name__)
 
 URL ='https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3'
 
-headers = {'Content-Type': 'application/json',
-          'Authorization': os.environ.get("API_KEY")}
 
-dir = dirname(abspath(__file__))
 
 @app.route("/", methods=["GET","POST"])
 def home():
@@ -50,4 +46,4 @@ def home():
 def return_files_tut():
     """returns file"""
 
-    return send_file(join(dir, ".",  'file.txt'))
+    return send_file(join("data",  'file.txt'))
