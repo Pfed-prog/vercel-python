@@ -43,7 +43,7 @@ def home():
     last = df.date.iloc[-1:].values[0]
     timestep = df.date.iloc[-1:].values[0]-df.date.iloc[-2:-1].values[0]
 
-    return jsonify({ 'last_date':last, "timestep":timestep })
+    return jsonify({ 'last_date': str(last), "timestep": str(timestep) })
 @app.route('/<path:path>')
 def catch_all(path):
     """check"""
