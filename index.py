@@ -48,4 +48,4 @@ def home():
 @app.route('/return-files/')
 def return_files_tut():
     """returns file"""
-    return send_file('/data/file.txt', attachment_filename='file.txt')
+    return send_file('/data/file.txt')
