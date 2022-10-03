@@ -3,7 +3,7 @@ from os.path import join
 import json
 import requests
 from flask import Flask, request, jsonify, send_file
-
+import joblib
 import pandas as pd
 import numpy as np
 
@@ -42,8 +42,13 @@ def home():
 
     return jsonify({ 'last_date': str(last), "timestep": str(timestep) })
 
+@app.route('/prediction')
+def predict():
+    """returns prediction"""
+    predictions = joblib.load(join("data",  'model.pkl'))
+    return jsonify({'predictions': list(predictions)})
+
 @app.route('/return-files/')
 def return_files_tut():
     """returns file"""
-
     return send_file(join("data",  'file.txt'))
