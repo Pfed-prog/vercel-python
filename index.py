@@ -22,9 +22,9 @@ URL ='https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3'
 def home():
     """prediction"""
     if request.args.get('f'):
-        f = int(request.args.get('f'))
+        forward_steps = int(request.args.get('f'))
     else:
-        f=15
+        forward_steps =15
     if request.args.get('a'):
         address = request.args.get('a')
     else:
@@ -39,8 +39,8 @@ def home():
     df_data = json_data['data']['token']['tokenDayData']
     df = pd.DataFrame(df_data)
 
-    df.priceUSD = df.priceUSD.replace(0, np.nan).dropna()
-    df.priceUSD = df.priceUSD.astype(float)
+    #df.priceUSD = df.priceUSD.replace(0, np.nan).dropna()
+    #df.priceUSD = df.priceUSD.astype(float)
 
     last = df.date.iloc[-1:].values[0]
     timestep = df.date.iloc[-1:].values[0]-df.date.iloc[-2:-1].values[0]
