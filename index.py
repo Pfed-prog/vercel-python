@@ -15,7 +15,7 @@ headers = {'Content-Type': 'application/json',
 
 URL ='https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3'
 
-@app.route("/", methods=["GET","POST"], defaults={'path': ''})
+@app.route("/", methods=["GET","POST"])
 def home():
     """prediction"""
     if request.args.get('f'):
