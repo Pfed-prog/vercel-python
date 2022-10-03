@@ -2,7 +2,7 @@
 import os
 import json
 import requests
-from flask import Flask, Response, request, jsonify
+from flask import Flask, request, jsonify
 
 import pandas as pd
 import numpy as np
@@ -44,4 +44,3 @@ def home():
     timestep = df_data.date.iloc[-1:].values[0]-df_data.date.iloc[-2:-1].values[0]
 
     return jsonify({ 'last_date': str(last), "timestep": str(timestep) })
-    
