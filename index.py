@@ -34,17 +34,14 @@ def home():
 
     r = requests.post(URL, json={'query': query})
     json_data = json.loads(r.text)
-    df_data = json_data['data']['token']['tokenDayData']
-    df = pd.DataFrame(df_data)
+    in_df_data = json_data['data']['token']['tokenDayData']
+    df_data = pd.DataFrame(in_df_data)
 
-    df.priceUSD = df.priceUSD.replace(0, np.nan).dropna()
-    df.priceUSD = df.priceUSD.astype(float)
+    df_data.priceUSD = df_data.priceUSD.replace(0, np.nan).dropna()
+    df_data.priceUSD = df_data.priceUSD.astype(float)
 
-    last = df.date.iloc[-1:].values[0]
-    timestep = df.date.iloc[-1:].values[0]-df.date.iloc[-2:-1].values[0]
+    last = df_data.date.iloc[-1:].values[0]
+    timestep = df_data.date.iloc[-1:].values[0]-df_data.date.iloc[-2:-1].values[0]
 
     return jsonify({ 'last_date': str(last), "timestep": str(timestep) })
-@app.route('/<path:path>')
-def catch_all(path):
-    """check"""
-    return Response("<h1>Flask</h1><p>You visited: /%s</p>" % (path), mimetype="text/html")
+    
