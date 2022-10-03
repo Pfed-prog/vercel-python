@@ -2,7 +2,7 @@
 import os
 import json
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 
 import pandas as pd
 import numpy as np
@@ -32,8 +32,8 @@ def home():
         {token (id: "%s"){tokenDayData { priceUSD date } } }
        """ % address
 
-    r = requests.post(URL, json={'query': query})
-    json_data = json.loads(r.text)
+    response = requests.post(URL, json={'query': query})
+    json_data = json.loads(response.text)
     in_df_data = json_data['data']['token']['tokenDayData']
     df_data = pd.DataFrame(in_df_data)
 
@@ -44,3 +44,8 @@ def home():
     timestep = df_data.date.iloc[-1:].values[0]-df_data.date.iloc[-2:-1].values[0]
 
     return jsonify({ 'last_date': str(last), "timestep": str(timestep) })
+
+@app.route('/return-files/')
+def return_files_tut():
+    """returns file"""
+    return send_file('/data/file.txt', attachment_filename='file.txt')
