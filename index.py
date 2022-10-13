@@ -25,9 +25,9 @@ def home():
     else:
         address = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
 
-    query = """
-        {token (id: "%s"){tokenDayData { priceUSD date } } }
-       """ % address
+    query = f"""
+            {{token (id: "{address}"){{tokenDayData(first:1000) {{ priceUSD date open close high low volume volumeUSD}} }} }}
+            """
 
     response = requests.post(URL, json={'query': query})
     json_data = json.loads(response.text)
