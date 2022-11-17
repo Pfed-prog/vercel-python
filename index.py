@@ -56,7 +56,9 @@ def home():
         address = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
 
     df_data = get_data(address)
-    print(df_data.columns)
+    df = time_features(df_data)
+    print(df.columns)
+
     empty_predictions = input_cells(df_data.date.values[-1:][0])
     df = pd.concat([df_data, empty_predictions]).reset_index(drop=True)
 
