@@ -6,6 +6,7 @@ import requests
 from flask import Flask, request, jsonify, send_file
 import joblib
 import pandas as pd
+import sklearn
 
 app = Flask(__name__)
 
