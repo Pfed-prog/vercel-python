@@ -76,7 +76,7 @@ def home():
 
     # scale data
     #scaler = joblib.load(join("data",  'scaler.save'))
-    y_scaler = joblib.load(join("data",  'y_scaler.save'))
+    #y_scaler = joblib.load(join("data",  'y_scaler.save'))
 
 
     #df.iloc[:, 1:] = scaler.transform(df.iloc[:, 1:])
@@ -102,6 +102,7 @@ def home():
 @app.route('/prediction')
 def predict():
     """returns prediction"""
+    joblib.load(join("data",  'scaler.save'))
     predictions = joblib.load(join("data",  'model.pkl'))
     return jsonify({'predictions': list(predictions)})
 
