@@ -91,13 +91,13 @@ def home():
     make_pred_data = df.iloc[-sequence_length:]
     make_pred_data = make_pred_data.values.reshape((1, sequence_length, 12))
 
-    #prediction = model.predict(make_pred_data)
+    prediction = model.predict(make_pred_data)
     last = df.date.iloc[-1:].values[0]
 
-    return jsonify({ 'last_date': str(last)})
+    #return jsonify({ 'last_date': str(last)})
 
 
-    #return jsonify({ 'last_date': str(last), "prediction": str(prediction) })
+    return jsonify({ 'last_date': str(last), "prediction": str(prediction) })
 
 @app.route('/prediction')
 def predict():
