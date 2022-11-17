@@ -56,6 +56,7 @@ def home():
         address = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
 
     df_data = get_data(address)
+    print(df_data.columns)
     empty_predictions = input_cells(df_data.date.values[-1:][0])
     df = pd.concat([df_data, empty_predictions]).reset_index(drop=True)
 
@@ -64,7 +65,10 @@ def home():
     for x in columns:
         df[x] = df[x].shift(FORWARD_STEPS)
 
-    df = df.dropna()
+    features = ['priceUSD', 'date', 'open', 'close', 'high', 'low', 'volume',
+       'volumeUSD', 'day', 'weekday', 'month', 'year']
+
+    df = df.iloc[FORWARD_STEPS:][features]
 
     print(df.head())
 
