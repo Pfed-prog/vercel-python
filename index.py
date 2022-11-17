@@ -104,7 +104,8 @@ def home():
 def predict():
     """returns prediction"""
     predictions = joblib.load(join("data",  'model.pkl'))
-    return jsonify({'predictions': list(predictions)})
+    return 2
+    #return jsonify({'predictions': list(predictions)})
 
 @app.route('/return-files/')
 def return_files_txt():
