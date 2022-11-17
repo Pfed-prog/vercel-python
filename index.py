@@ -67,12 +67,14 @@ def home():
 
     df = df.dropna()
 
+    print(df.head())
+
     # scale data
-    scaler = joblib.load(join("data",  'scaler.save'))
+    #scaler = joblib.load(join("data",  'scaler.save'))
     y_scaler = joblib.load(join("data",  'y_scaler.save'))
 
 
-    df.iloc[:, 1:] = scaler.transform(df.iloc[:, 1:])
+    #df.iloc[:, 1:] = scaler.transform(df.iloc[:, 1:])
     df[['priceUSD']] = y_scaler.transform(df[['priceUSD']])
 
     #model = joblib.load(join("data",  'lstm.pkl'))
