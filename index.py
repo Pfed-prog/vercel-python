@@ -56,55 +56,27 @@ def home():
         address = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
 
     df_data = get_data(address)
-    df = time_features(df_data)
-    print(df.columns)
+    df_withfeatures = time_features(df_data)
 
-    empty_predictions = input_cells(df_data.date.values[-1:][0])
-    df = pd.concat([df_data, empty_predictions]).reset_index(drop=True)
+    empty_predictions = input_cells(df_withfeatures.date.values[-1:][0])
+    df_all = pd.concat([df_withfeatures, empty_predictions]).reset_index(drop=True)
 
     columns = ['open', 'close', 'high', 'low', 'volume', 'volumeUSD']
 
-    for x in columns:
-        df[x] = df[x].shift(FORWARD_STEPS)
+    for column in columns:
+        df_all[column] = df_all[column].shift(FORWARD_STEPS)
 
     features = ['priceUSD', 'date', 'open', 'close', 'high', 'low', 'volume',
        'volumeUSD', 'day', 'weekday', 'month', 'year']
 
-    df = df.iloc[FORWARD_STEPS:][features]
+    df_all = df_all.iloc[-FORWARD_STEPS:][features]
 
-    print(df.head())
-
-    # scale data
-    #scaler = joblib.load(join("data",  'scaler.save'))
-    #y_scaler = joblib.load(join("data",  'y_scaler.save'))
-
-
-    #df.iloc[:, 1:] = scaler.transform(df.iloc[:, 1:])
-    #df[['priceUSD']] = y_scaler.transform(df[['priceUSD']])
-
-    #model = joblib.load(join("data",  'lstm.pkl'))
-
-
-    #make prediction
-
-    sequence_length = 110
-    make_pred_data = df.iloc[-sequence_length:]
-    make_pred_data = make_pred_data.values.reshape((1, sequence_length, 12))
-
-    #prediction = model.predict(make_pred_data)
-    last = df.date.iloc[-1:].values[0]
+    last = df_all.date.iloc[-1:].values[0]
 
     return jsonify({ 'last_date': str(last)})
 
 
     #return jsonify({ 'last_date': str(last), "prediction": str(prediction) })
-
-@app.route('/prediction')
-def predict():
-    """returns prediction"""
-    predictions = joblib.load(join("data",  'model.pkl'))
-    return 2
-    #return jsonify({'predictions': list(predictions)})
 
 @app.route('/return-files/')
 def return_files_txt():
