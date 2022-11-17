@@ -6,7 +6,6 @@ import requests
 from flask import Flask, request, jsonify, send_file
 import joblib
 import pandas as pd
-import numpy as np
 
 app = Flask(__name__)
 
@@ -75,7 +74,7 @@ def home():
     df.iloc[:, 1:] = scaler.transform(df.iloc[:, 1:])
     df[['priceUSD']] = y_scaler.transform(df[['priceUSD']])
 
-    model = joblib.load(join("data",  'lstm.pkl'))
+    #model = joblib.load(join("data",  'lstm.pkl'))
 
 
     #make prediction
@@ -84,10 +83,13 @@ def home():
     make_pred_data = df.iloc[-sequence_length:]
     make_pred_data = make_pred_data.values.reshape((1, sequence_length, 12))
 
-    prediction = model.predict(make_pred_data)
+    #prediction = model.predict(make_pred_data)
     last = df.date.iloc[-1:].values[0]
 
-    return jsonify({ 'last_date': str(last), "prediction": str(prediction) })
+    return jsonify({ 'last_date': str(last)})
+
+
+    #return jsonify({ 'last_date': str(last), "prediction": str(prediction) })
 
 @app.route('/prediction')
 def predict():
