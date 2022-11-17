@@ -82,7 +82,7 @@ def home():
     #df.iloc[:, 1:] = scaler.transform(df.iloc[:, 1:])
     #df[['priceUSD']] = y_scaler.transform(df[['priceUSD']])
 
-    #model = joblib.load(join("data",  'lstm.pkl'))
+    model = joblib.load(join("data",  'lstm.pkl'))
 
 
     #make prediction
