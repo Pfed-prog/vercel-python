@@ -57,23 +57,21 @@ def home():
         address = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
 
     df_data = get_data(address)
-    df_withfeatures = time_features(df_data)
-
-    empty_predictions = input_cells(df_withfeatures.date.values[-1:][0])
-    df_all = pd.concat([df_withfeatures, empty_predictions]).reset_index(drop=True)
+    empty_predictions = input_cells(df_data.date.values[-1:][0])
+    df_all = pd.concat([df_data, empty_predictions]).reset_index(drop=True)
+    df_withfeatures = time_features(df_all)
 
     columns = ['open', 'close', 'high', 'low', 'volume', 'volumeUSD']
-
     for column in columns:
-        df_all[column] = df_all[column].shift(FORWARD_STEPS)
+        df_withfeatures[column] = df_withfeatures[column].shift(FORWARD_STEPS)
 
     features = ['priceUSD', 'date', 'open', 'close', 'high', 'low', 'volume',
        'volumeUSD', 'day', 'weekday', 'month', 'year']
 
-    df_all = df_all.iloc[-FORWARD_STEPS:][features]
+    df_withfeatures = df_withfeatures.iloc[-FORWARD_STEPS:][features]
 
 
-    for column in ['day', 'weekday', 'month', 'year']:
-        df_all[column] = df_all[column].astype(int)
+    #for column in ['day', 'weekday', 'month', 'year']:
+    #    df_all[column] = df_all[column].astype(int)
 
-    return df_all.to_html(header="true", table_id="table")
+    return df_withfeatures.to_html(header="true", table_id="table")
