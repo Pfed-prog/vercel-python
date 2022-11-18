@@ -71,7 +71,7 @@ def home():
 
     #df_all = df_all.iloc[-FORWARD_STEPS:][features]
 
-    model = joblib.load(join("data", 'nodel.pkl'))
+    model = joblib.load(join("data", 'model.pkl'))
 
     numeric_features = [
                         'weekday',
