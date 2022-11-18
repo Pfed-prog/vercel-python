@@ -69,14 +69,32 @@ def home():
     features = ['priceUSD', 'date', 'open', 'close', 'high', 'low', 'volume',
        'volumeUSD', 'day', 'weekday', 'month', 'year']
 
-    df_all = df_all.iloc[-FORWARD_STEPS:][features]
+    #df_all = df_all.iloc[-FORWARD_STEPS:][features]
+
+    model = joblib.load(join("data", 'nodel.pkl'))
+
+    numeric_features = [
+                        'weekday',
+                        'day',
+                        'month',
+                        'open',
+                        'close',
+                        'high',
+                        'low',
+                        'volume',
+                        'volumeUSD',
+                        'priceUSD',
+                        ]
+
+    object_features = [
+        'year'
+    ]
+
+    print(model.predict(df_all.iloc[-FORWARD_STEPS:][numeric_features + object_features]))
 
     last = df_all.date.iloc[-1:].values[0]
 
     return jsonify({ 'last_date': str(last)})
-
-
-    #return jsonify({ 'last_date': str(last), "prediction": str(prediction) })
 
 @app.route('/return-files/')
 def return_files_txt():
