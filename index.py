@@ -72,5 +72,6 @@ def home():
 
     df_all = df_all.iloc[-FORWARD_STEPS:][features]
 
-    last = df_all.date.iloc[-1:].values[0]
-    return jsonify({ 'last_date': str(last), "X_values": list(df_all.values)})
+    #last = df_all.date.iloc[-1:].values[0]
+    return df_all.to_html(header="true", table_id="table")
+    #return jsonify({ 'last_date': str(last), "X_values": list(df_all.values)})
