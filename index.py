@@ -19,13 +19,15 @@ def get_data(address):
 
     address: address of the Uniswap contract
     """
+
     query = f"""
         {{token (id: "{address}"){{tokenDayData(first:1000, skip:2) {{ priceUSD date open close high low volume volumeUSD}} }} }}
-        """
+    """
     response = requests.post(URL, json={'query': query}, timeout=7.5)
     json_data = json.loads(response.text)
     data = json_data['data']['token']['tokenDayData']
     out_df = pd.DataFrame(data)
+
     return out_df
 
 
@@ -65,37 +67,10 @@ def home():
     for column in columns:
         df_all[column] = df_all[column].shift(FORWARD_STEPS)
 
-    ##features = ['priceUSD', 'date', 'open', 'close', 'high', 'low', 'volume',
-    #   'volumeUSD', 'day', 'weekday', 'month', 'year']
+    features = ['priceUSD', 'date', 'open', 'close', 'high', 'low', 'volume',
+       'volumeUSD', 'day', 'weekday', 'month', 'year']
 
     df_all = df_all.iloc[-FORWARD_STEPS:][features]
 
-    #model = joblib.load(join("data", 'model.pkl'))
-
-"""     numeric_features = [
-                        'weekday',
-                        'day',
-                        'month',
-                        'open',
-                        'close',
-                        'high',
-                        'low',
-                        'volume',
-                        'volumeUSD',
-                        'priceUSD',
-                        ] """
-
-    #object_features = [
-    #    'year'
-    #]
-
-    #print(model.predict(df_all.iloc[-FORWARD_STEPS:][numeric_features + object_features]))
-
     last = df_all.date.iloc[-1:].values[0]
-
     return jsonify({ 'last_date': str(last), "X_values": list(df_all)})
-
-""" @app.route('/return-file/')
-def return_files_txt():
-    """returns file"""
-    return send_file(join("data",  'file.txt')) """
